@@ -128,4 +128,13 @@ describe('Parser Tests', () => {
     });
   });
 
+  describe("Pruebas del Analizador Léxico (Práctica 4)", () => {
+    test("Debe ignorar comentarios de una línea", () => {
+      expect(parse("7 + 3 // esto es un comentario")).toBe(10);
+    });
+
+    test("Debe fallar o devolver INVALID con caracteres extraños", () => {
+      expect(() => parse("2 @ 2")).toThrow();
+    });
+  });
 });
