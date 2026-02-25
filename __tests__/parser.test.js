@@ -110,7 +110,7 @@ describe('Parser Tests', () => {
       expect(() => parse("3 +")).toThrow();
       expect(() => parse("+ 3")).toThrow();
       expect(() => parse("3 + + 4")).toThrow();
-      expect(() => parse("3.5")).toThrow(); // Only integers are supported
+      //expect(() => parse("3.5")).toThrow(); // Only integers are supported
     });
 
     test('should handle incomplete expressions', () => {
@@ -128,4 +128,30 @@ describe('Parser Tests', () => {
     });
   });
 
+  describe("Pruebas del Analizador Léxico (Práctica 4)", () => {
+    test("Debe ignorar comentarios de una línea", () => {
+      expect(parse("7 + 3 // esto es un comentario")).toBe(10);
+    });
+
+    test("Debe fallar o devolver INVALID con caracteres extraños", () => {
+      expect(() => parse("2 @ 2")).toThrow();
+    });
+  });
+  describe("Pruebas de Números en Punto Flotante (Practica 4)", () => {
+    test("Debe reconocer números con punto decimal", () => {
+      expect(parse("2.35")).toBe(2.35);
+    });
+
+    test("Debe reconocer notación científica con exponente negativo (e-3)", () => {
+      expect(parse("2.35e-3")).toBe(0.00235);
+    });
+
+    test("Debe reconocer notación científica con exponente positivo (e+3)", () => {
+      expect(parse("2.35e+3")).toBe(2350);
+    });
+
+    test("Debe realizar operaciones combinando estos formatos", () => {
+      expect(parse("2.35e+3 / 10")).toBe(235);
+    });
+  });
 });
