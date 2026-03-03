@@ -36,3 +36,23 @@ describe('Parser Failing Tests', () => {
     expect(parse("2 + 3 * 4 - 5")).toBe(9); // 2 + (3 * 4) - 5 = 9}
   });
 });
+
+describe('Parser Precedence and Floats', () => {
+  test('should handle multiplication and division before addition and subtraction', () => {
+    expect(parse("2 + 3 * 4")).toBe(14); // 2+(3*4)=14
+    expect(parse("10 - 6 / 2")).toBe(7); // 10-(6/2)=7
+    expect(parse("5 * 2 + 3")).toBe(13); // (5*2)+3=13
+    expect(parse("20 / 4 - 2")).toBe(3); // (20/4)-2=3
+  });
+  test('should handle exponentiation and right associativity', () => {
+    expect(parse("2 + 3 ** 2")).toBe(11); // 2+(3**2)=11
+    expect(parse("2 ** 3 ** 2")).toBe(512); // 2**(3**2)=512
+    expect(parse("3 ** 2 ** 2")).toBe(81); // 3**(2**2)=81
+  });
+  test('should handle floats and scientific notation', () => {
+    expect(parse("10.5 - 2.5 * 2")).toBe(5.5); // 10.5-5.0=5.5
+    expect(parse("4.5 / 1.5 + 1")).toBe(4.0); // 3.0+1=4.0
+    expect(parse("2e3 + 500")).toBe(2500); // 2000+500=2500
+    expect(parse("1.5e1 * 2")).toBe(30); // 15*2=30
+  });
+});
