@@ -9,6 +9,8 @@
 "/"                                 { return 'opmu'; }
 "+"                                 { return 'opad'; }
 "-"                                 { return 'opad'; }
+"("                                 { return '('; }    
+")"                                 { return ')'; } 
 <<EOF>>                             { return 'EOF'; }
 .                                   { return 'INVALID'; }
 /lex
@@ -48,12 +50,11 @@ factor
         { $$ = $1; }
     ;
 
-/* Números */
+/* Números y Paréntesis */ // Maxima prioridad.
 primary
-    : NUMBER
-        { $$ = Number(yytext); }
+    : NUMBER               { $$ = Number(yytext); }
+    | '(' expression ')'   { $$ = $2; } 
     ;
-
 %%
 
 function operate(op, left, right) {
