@@ -56,3 +56,13 @@ describe('Parser Precedence and Floats', () => {
     expect(parse("1.5e1 * 2")).toBe(30); // 15*2=30
   });
 });
+
+describe('Parser Parentheses', () => {
+  test('should handle parentheses to override precedence', () => {
+    expect(parse("(2 + 3) * 4")).toBe(20); // (2+3)*4=20
+    expect(parse("2 * (3 + 4)")).toBe(14); // 2*(3+4)=14
+    expect(parse("(10 - 2) ** 2")).toBe(64); // (10-2)**2=64
+    expect(parse("2 ** (3 ** 2)")).toBe(512); // 2**(3**2)=512
+    expect(parse("((2 + 3) * 2) ** 2")).toBe(100); // ((2+3)*2)**2=100
+  });
+});
